@@ -9,7 +9,8 @@ enum layer_number {
 
 enum custom_keycodes {
     MC_TERM = SAFE_RANGE ,
-    MC_MAX
+    MC_MAX,
+    MC_LEFT
 };
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -152,11 +153,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             register_code(KC_LGUI);
             register_code(KC_LALT);
             SEND_STRING("-");
+            return false;
         } else {
             unregister_code(KC_LSFT);
             unregister_code(KC_LCTL);
             unregister_code(KC_LGUI);
             unregister_code(KC_LALT);
+            return false;
             // キーコード QMKBEST が放された時
         }
         break;
@@ -168,16 +171,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             register_code(KC_LGUI);
             register_code(KC_LALT);
             register_code(KC_ENT);
+            return false;
         } else {
             unregister_code(KC_ENT);
             unregister_code(KC_LSFT);
             unregister_code(KC_LCTL);
             unregister_code(KC_LGUI);
             unregister_code(KC_LALT);
+            return false;
             // キーコード QMKBEST が放された時
         }
         break;
 
+    case MC_LEFT:
+        if (record->event.pressed) {
+            // ウィンドウを左側にするマクロ
+            register_code(KC_LSFT);
+            register_code(KC_LCTL);
+            register_code(KC_LGUI);
+            register_code(KC_LALT);
+            register_code(KC_LEFT);
+            return false;
+        } else {
+            unregister_code(KC_LEFT);
+            unregister_code(KC_LSFT);
+            unregister_code(KC_LCTL);
+            unregister_code(KC_LGUI);
+            unregister_code(KC_LALT);
+            return false;
+            // キーコード QMKBEST が放された時
+        }
+        break;
 
     }
 
